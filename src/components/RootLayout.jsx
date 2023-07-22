@@ -257,8 +257,18 @@ function RootLayoutInner({ children }) {
 }
 
 export function RootLayout({ children }) {
-  let pathname = usePathname()
-  let [logoHovered, setLogoHovered] = useState(false)
+  let pathname = usePathname();
+  let [logoHovered, setLogoHovered] = useState(false);
+  useEffect(()=>{
+    let trackPage = true;
+    let page = () => {
+      window?._cio.page(); // Remember to send manual page calls for a SPA
+    }
+    if (trackPage) page();
+    return () => {
+      trackPage = false;
+    }
+  },[pathname])
 
   return (
     <RootLayoutContext.Provider value={{ logoHovered, setLogoHovered }}>
