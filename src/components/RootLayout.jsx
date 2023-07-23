@@ -263,12 +263,27 @@ export function RootLayout({ children }) {
   let [logoHovered, setLogoHovered] = useState(false);
   useEffect(()=>{
     let trackPage = true;
+    let timeout;
     let page = () => {
-      window?._cio.page(); // Remember to send manual page calls for a SPA
+      window?._cio?.page(); // Remember to send manual page calls for a SPA
     }
     if (trackPage) page();
+    if (/contact/.test(pathname)) {
+      if (/email=/.test(window.location.search)) {
+        let url = new URL(window.location.href);
+        let id = url.searchParams.get("email");
+        if (id) {
+          console.log({id});
+          window?._cio?.identify({id});
+          timeout = setTimeout(()=>{
+            window.location.search="";
+          },500)
+        }
+      }
+    }
     return () => {
       trackPage = false;
+      if (timeout) clearTimeout(timeout);
     }
   },[pathname])
 
