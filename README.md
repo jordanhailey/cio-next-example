@@ -10,7 +10,10 @@ To get started with this template, first install the npm dependencies:
 npm install
 ```
 
-Next, run the development server:
+Next, copy `.env.example` and rename to `.env.local` then add your Customer.io Site ID and Specify your Region
+
+
+Finally, run the development server:
 
 ```bash
 npm run dev
