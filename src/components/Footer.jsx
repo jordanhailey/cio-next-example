@@ -80,7 +80,17 @@ function ArrowIcon(props) {
 
 function NewsletterForm() {
   return (
-    <form className="max-w-sm">
+    <form className="max-w-sm" onSubmit={function handleSubmit(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const id = formData.get("newsletter-email");
+      window?._cio?.identify({id});
+      window?._cio?.track("newsletter-signup",{id,location:window.location.href});
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }}>
       <h2 className="font-display text-sm font-semibold tracking-wider text-neutral-950">
         Sign up for our newsletter
       </h2>
@@ -91,6 +101,8 @@ function NewsletterForm() {
       <div className="relative mt-6">
         <input
           type="email"
+          name='newsletter-email'
+          id='newsletter-email'
           placeholder="Email address"
           autoComplete="email"
           aria-label="Email address"
